@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>password</title>
+</head>
+<body>
+   <p><h2>your password must contain 6 characters including one number and one capital letter and one special character </h2></p> 
+<br>
+<p >enter password <br /><input type="password" id="p1"></p>
+<p>re-enter password <br><input type="password" id="p2"></p>
+<p id="error"></p>
+<button onclick="validate()">submit</button>
+<script>
+function validate(){
+var password=document.getElementById("p1").value;
+var password2=document.getElementById("p2").value;
+var errormessage=document.getElementById("error");
+var errortothrow="";
+try{
+if(password.length<6){
+errortothrow+="<br /> passsword too short.";
+throw errortothrow;
+}
+if(/[A-Z]/g.test(password)==false){
+errortothrow+="<br />need capital letters";
+throw errortothrow;
+}
+if(/\d/g.test(password)==false){
+   errortothrow+="<br /> digits required";
+   throw errortothrow; 
+}
+if(/\W/g.test(password)==false){
+ errortothrow+="<br /> special charaters required"; 
+ throw errortothrow;  
+}
+if(password != password2){
+   errortothrow += "<br />password should match.";
+}
+}
+catch(err){
+errormessage.innerHTML=err;
+}     
+}
+
+</script>
+</body>
+</html>
