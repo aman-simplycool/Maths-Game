@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathgame</title>
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>
+ <div id="container">
+<div id="score">Score:<span id="scorevalue">0</span></div>
+<div id="correct">correct</div>
+<div id="tryagain">wrong answer</div>
+<div id="question"></div>
+<div id="instruction">choose the right option</div>
+<div id="choices">
+<div id="box1" class="box"></div>
+<div id="box2" class="box"></div>
+<div id="box3" class="box"></div>
+<div id="box4" class="box"></div>
+</div>
+<div id="start">
+  start game
+</div>
+<div id="time">
+  time remaining:<span id="timer">60 sec</span>
+</div>
+<div id="gameover">
+</div>
+</div>
+<script>
+var correctans;
+var timeremaining;
+var score;
+var action;
+var playing=false;
+document.getElementById("start").onclick = function(){
+  if(playing == true){
+    location.reload();
+  }
+  else{playing=true;
+    score=0;
+  document.getElementById("scorevalue").innerHTML=score;
+  document.getElementById("time").style.display="block";
+  timeremaining=60;
+  document.getElementById("timer").innerHTML=timeremaining;
+  document.getElementById("start").innerHTML="reset game";
+  startcountdown();
+  generateQA();
+}}
+
+
+
+function startcountdown(){
+action=setInterval(function(){
+timeremaining-=1;
+document.getElementById("timer").innerHTML=timeremaining;
+if(timeremaining ==0){
+  stopcountdown();
+playing=false;
+document.getElementById("gameover").style.display="block";
+document.getElementById("gameover").innerHTML="<p>Game over!</p><p>Your score is " + score + ".</p>" ;
+document.getElementById("time").style.display="none";
+document.getElementById("correct").style.display="none";
+document.getElementById("start").innerHTML="start game";
+}
+}, 1000);
+}
+function stopcountdown(){
+clearInterval(action);
+}
+function generateQA(){
+var x=1+Math.round(9*Math.random());
+var y=1+Math.round(9*Math.random());
+correctans=x*y;
+document.getElementById("question").innerHTML= x +"x"+y;
+var correctposition=1+Math.round(3*Math.random());
+document.getElementById("box"+correctposition).innerHTML=correctans;
+var answers=[correctans];
+for(i=1;i<5;i++){
+if(i!=correctposition){
+var wrongans;
+do{wrongans=(1+Math.round(9*Math.random()))*(1+Math.round(9*Math.random()));}
+while(wrongans==correctans)
+document.getElementById("box"+i).innerHTML=wrongans;
+}}}
+for(i=1;i<5;i++){
+document.getElementById("box"+i).onclick=function(){
+if(playing==true){
+if(this.innerHTML==correctans){
+  score++;
+  document.getElementById("scorevalue").innerHTML=score;
+  generateQA();
+document.getElementById("correct").style.display="block";
+document.getElementById("tryagain").style.display="none";
+setTimeout(function(){document.getElementById("correct");},2000);
+}
+else{
+document.getElementById("tryagain").style.display="block";
+document.getElementById("correct").style.display="none";
+setTimeout(function(){document.getElementById("tryagain").style.display="none";},2000);
+}
+}
+}}
+function hide(id){
+document.getElementById("id").style.display="none";
+}
+function show(id){
+document.getElementById("id").style.display="block";
+}
+</script>
+</body>
+</html>
